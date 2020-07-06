@@ -25,7 +25,7 @@ setup(name="gnome-search-yubikey-totp",
       author_email="post@haavard.name",
       url="https://github.com/umglurf/gnome-search-yubikey-totp",
       license="GPL3",
-      install_requires=["fuzzywuzzy", "python-Levenshtein", "PyGObject"],
+      install_requires=["fuzzywuzzy", "python-Levenshtein", "PyGObject", "yubikey-manager"],
       scripts=["yubikey-totp-search-provider.py", "yubikey-totp-copy-code.py"],
       data_files=[
           ("/usr/local/share/gnome-shell/search-providers", ["name.haavard.Yubikey.SearchProvider.ini"]),
