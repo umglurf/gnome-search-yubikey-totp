@@ -1,0 +1,3 @@
+[D-BUS Service]
+Name=name.haavard.Yubikey.SearchProvider
+Exec=/usr/local/bin/yubikey-totp-search-provider.py
