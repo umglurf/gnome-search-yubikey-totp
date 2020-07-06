@@ -64,7 +64,7 @@ class YubikeyCode:
         else:
             self.clipboard.set_text(codes[match[0]], -1)
             self.clipboard.store()
-            self.notify = Notify.Notification.new("Code copied", f"Copied code for {sys.argv[1]}")
+            self.notify = Notify.Notification.new("Code copied", f"Copied code for {match[0]}")
             self.notify.show()
             GLib.timeout_add(3000, self.notify_clear)
             timeout = 15000
