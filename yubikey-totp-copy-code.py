@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2020 Håvard Moen <post@haavard.name>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """
 This file is part of gnome-search-yubikey-totp.
 
@@ -29,6 +34,7 @@ gi.require_version("Gtk", "3.0")
 gi.require_version("Notify", "0.7")
 from gi.repository import Gdk, Gtk, GLib, Notify
 
+
 class YubikeyMissingWindow(Gtk.Window):
     def __init__(self):
         Gtk.Window.__init__(self, title="Yubikey missing")
@@ -37,14 +43,21 @@ class YubikeyMissingWindow(Gtk.Window):
         self.label = Gtk.Label(label="Please insert yubikey")
         self.add(self.label)
 
+
 class YubikeyCode:
     def __init__(self):
         self.clipboard = Gtk.Clipboard.get(Gdk.SELECTION_CLIPBOARD)
         Notify.init("yubikey-copy-code")
         self.notify = None
 
-    def check_yubikey(self, window = None):
-        ret = subprocess.run(["ykman", "oath", "code"], encoding='utf-8', timeout=10, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    def check_yubikey(self, window=None):
+        ret = subprocess.run(
+            ["ykman", "oath", "code"],
+            encoding="utf-8",
+            timeout=10,
+            stderr=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+        )
         if ret.returncode != 0:
             if window is not None:
                 window.show_all()
@@ -57,14 +70,18 @@ class YubikeyCode:
                 codes[match[1]] = match[2]
         match = process.extractOne(sys.argv[1], codes.keys(), score_cutoff=60)
         if match is None:
-            self.notify = Notify.Notification.new("Code not found", f"Could not find code for {sys.argv[1]}")
+            self.notify = Notify.Notification.new(
+                "Code not found", f"Could not find code for {sys.argv[1]}"
+            )
             self.notify.show()
             timeout = 3000
             GLib.timeout_add(2500, self.notify_clear)
         else:
             self.clipboard.set_text(codes[match[0]], -1)
             self.clipboard.store()
-            self.notify = Notify.Notification.new("Code copied", f"Copied code for {match[0]}")
+            self.notify = Notify.Notification.new(
+                "Code copied", f"Copied code for {match[0]}"
+            )
             self.notify.show()
             GLib.timeout_add(3000, self.notify_clear)
             timeout = 15000
@@ -83,6 +100,7 @@ class YubikeyCode:
     def finish(self):
         Gtk.main_quit()
 
+
 def main():
     if len(sys.argv) != 2:
         print(f"Usage {sys.argv[0]} name")
@@ -95,6 +113,7 @@ def main():
     GLib.timeout_add(1000, yubikey_code.check_yubikey, window)
 
     Gtk.main()
+
 
 if __name__ == "__main__":
     main()

@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+
+# SPDX-FileCopyrightText: 2020 Håvard Moen <post@haavard.name>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
 """
 This file is part of gnome-search-yubikey-totp.
 
@@ -18,17 +23,29 @@ along with Foobar.  If not, see <https://www.gnu.org/licenses/>.
 
 from setuptools import setup
 
-setup(name="gnome-search-yubikey-totp",
-      version="1.0",
-      description="Gnome shell yubikey totp search provider",
-      author="Håvard Moen",
-      author_email="post@haavard.name",
-      url="https://github.com/umglurf/gnome-search-yubikey-totp",
-      license="GPL3",
-      install_requires=["fuzzywuzzy", "python-Levenshtein", "PyGObject", "yubikey-manager"],
-      scripts=["yubikey-totp-search-provider.py", "yubikey-totp-copy-code.py"],
-      data_files=[
-          ("/usr/local/share/gnome-shell/search-providers", ["name.haavard.Yubikey.SearchProvider.ini"]),
-          ("/usr/local/share/dbus-1/services", ["name.haavard.Yubikey.SearchProvider.service"])
-          ]
-      )
+setup(
+    name="gnome-search-yubikey-totp",
+    version="1.0",
+    description="Gnome shell yubikey totp search provider",
+    author="Håvard Moen",
+    author_email="post@haavard.name",
+    url="https://github.com/umglurf/gnome-search-yubikey-totp",
+    license="GPL3",
+    install_requires=[
+        "fuzzywuzzy",
+        "python-Levenshtein",
+        "PyGObject",
+        "yubikey-manager",
+    ],
+    scripts=["yubikey-totp-search-provider.py", "yubikey-totp-copy-code.py"],
+    data_files=[
+        (
+            "/usr/local/share/gnome-shell/search-providers",
+            ["name.haavard.Yubikey.SearchProvider.ini"],
+        ),
+        (
+            "/usr/local/share/dbus-1/services",
+            ["name.haavard.Yubikey.SearchProvider.service"],
+        ),
+    ],
+)

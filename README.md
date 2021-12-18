@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 Håvard Moen <post@haavard.name>
+
+SPDX-License-Identifier: GPL-3.0-or-later
+-->
+
 # gnome-search-yubikey-totp
 Gnome search provider for copying yubikey totp codes to clipboard.
 
