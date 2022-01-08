@@ -36,6 +36,10 @@ search_bus_name = "org.gnome.Shell.SearchProvider2"
 sbn = dict(dbus_interface=search_bus_name)
 
 
+def reap_child(pid, status, child):
+    child.wait(0)
+
+
 class SearchPassService(dbus.service.Object):
     """The search daemon.
     This service is started through DBus activation by calling the
@@ -53,7 +57,8 @@ class SearchPassService(dbus.service.Object):
 
     @dbus.service.method(in_signature="sasu", **sbn)
     def ActivateResult(self, id, terms, timestamp):
-        subprocess.run(["yubikey-totp-copy-code.py", "".join(terms[1:])])
+        child = subprocess.Popen(["yubikey-totp-copy-code.py", "".join(terms[1:])])
+        GLib.child_watch_add(child.pid, reap_child, child)
 
     @dbus.service.method(in_signature="as", out_signature="as", **sbn)
     def GetInitialResultSet(self, terms):
