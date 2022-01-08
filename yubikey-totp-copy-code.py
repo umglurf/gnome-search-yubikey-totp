@@ -50,7 +50,7 @@ class YubikeyCode:
         Notify.init("yubikey-copy-code")
         self.notify = None
 
-    def check_yubikey(self, window=None):
+    def check_yubikey(self, window=None, initial=False):
         ret = subprocess.run(
             ["ykman", "oath", "code"],
             encoding="utf-8",
@@ -61,6 +61,8 @@ class YubikeyCode:
         if ret.returncode != 0:
             if window is not None:
                 window.show_all()
+            if initial:
+                return False
             return True
 
         codes = {}
@@ -110,6 +112,7 @@ def main():
     window.connect("destroy", Gtk.main_quit)
 
     yubikey_code = YubikeyCode()
+    GLib.idle_add(yubikey_code.check_yubikey, window, True)
     GLib.timeout_add(1000, yubikey_code.check_yubikey, window)
 
     Gtk.main()
