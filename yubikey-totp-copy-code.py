@@ -52,7 +52,7 @@ class YubikeyCode:
 
     def check_yubikey(self, window=None, initial=False):
         ret = subprocess.run(
-            ["ykman", "oath", "code"],
+            ["ykman", "oath", "accounts", "code"],
             encoding="utf-8",
             timeout=10,
             stderr=subprocess.PIPE,
