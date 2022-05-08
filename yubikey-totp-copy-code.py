@@ -59,8 +59,6 @@ class YubikeyCode:
             stdout=subprocess.PIPE,
         )
         if ret.returncode != 0:
-            if window is not None:
-                window.show_all()
             if initial:
                 return False
             return True
@@ -110,9 +108,10 @@ def main():
 
     window = YubikeyMissingWindow()
     window.connect("destroy", Gtk.main_quit)
+    window.show_all()
 
     yubikey_code = YubikeyCode()
-    GLib.idle_add(yubikey_code.check_yubikey, window, True)
+    GLib.timeout_add(100, yubikey_code.check_yubikey, window, True)
     GLib.timeout_add(1000, yubikey_code.check_yubikey, window)
 
     Gtk.main()
